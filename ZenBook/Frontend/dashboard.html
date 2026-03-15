@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Zenbook</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* แถม CSS เล็กน้อยเพื่อให้รูปในการ์ดดูสวยครับ */
+        .room-card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px 12px 0 0;
+            margin-bottom: 10px;
+        }
+
+        .modal-room-img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: none;
+            /* ซ่อนไว้ก่อนถ้าไม่มีรูป */
+        }
+    </style>
+</head>
+
+<body class="dashboard-body">
+    <nav class="navbar">
+        <div class="nav-brand">Zenbook.</div>
+        <div class="nav-user">
+            <span id="userName" class="user-greeting">สวัสดี, คุณ...</span>
+            <button id="myBookingsBtn" class="btn-history">
+                <span></span>ประวัติการจอง
+            </button>
+            <button id="logoutBtn" class="btn-logout-text">ออกจากระบบ</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="room-container">
+            <h2 class="section-title">ห้องประชุมที่พร้อมให้บริการ</h2>
+            <div id="roomContainer" class="room-grid">
+            </div>
+        </div>
+    </div>
+
+    <div id="bookingModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h3 id="modalRoomName">จองห้อง...</h3>
+
+            <img id="modalRoomImage" src="" alt="Room Image" class="modal-room-img">
+
+            <form id="bookingForm">
+                <input type="hidden" id="modalRoomId">
+                <div class="input-group">
+                    <label for="bookingTitle">หัวข้อการประชุม</label>
+                    <input type="text" id="bookingTitle" placeholder="เช่น ประชุมทีมการตลาด" required>
+                </div>
+                <div class="input-group">
+                    <label for="startTime">เวลาเริ่มต้น</label>
+                    <input type="datetime-local" id="startTime" required>
+                </div>
+                <div class="input-group">
+                    <label for="endTime">เวลาสิ้นสุด</label>
+                    <input type="datetime-local" id="endTime" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-outline" onclick="closeModal()">ยกเลิก</button>
+                    <button type="submit" class="btn-primary">ยืนยันการจอง</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="myBookingsModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 600px;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #F0EBE1; padding-bottom: 15px; margin-bottom: 20px;">
+                <h3 style="margin: 0; color: var(--primary-color);"> ประวัติการจองของฉัน</h3>
+                <button class="btn-outline" onclick="closeMyBookingsModal()"
+                    style="padding: 5px 12px; border: none; cursor: pointer; font-weight: bold;">✕ ปิด</button>
+            </div>
+
+            <div id="myBookingsList" class="bookings-list">
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

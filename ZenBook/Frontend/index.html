@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Zenbook</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="login-body">
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Zenbook.</h1>
+            <p class="subtitle">ระบบจองห้องประชุม</p>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">อีเมล</label>
+                    <input type="email" id="email" placeholder="admin@zenbook.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">รหัสผ่าน</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-primary">เข้าสู่ระบบ</button>
+            </form>
+            <div id="errorMessage" class="error-msg"></div>
+
+            <p style="text-align: center; margin-top: 20px; font-size: 14px;">
+                ยังไม่มีบัญชีใช่ไหม? <a href="register.html"
+                    style="color: #8C7B65; text-decoration: underline; font-weight: bold;">สมัครสมาชิกที่นี่</a>
+            </p>
+
+        </div>
+    </div>
+    <script src="login.js"></script>
+</body>
+
+</html>

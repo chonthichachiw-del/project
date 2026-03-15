@@ -1,0 +1,511 @@
+body {
+    /* ตั้งค่ารูปพื้นหลัง */
+    background-image: url('images/background.jpg'); 
+    
+    /* ให้รูปปรับขนาดให้เต็มหน้าจอพอดี */
+    background-size: cover; 
+    
+    /* ให้รูปอยู่ตรงกลางเสมอ */
+    background-position: center; 
+    
+    /* ป้องกันรูปเลื่อนตามเวลา Scroll หน้าเว็บ */
+    background-attachment: fixed; 
+    
+    /* ป้องกันไม่ให้รูปซ้ำ */
+    background-repeat: no-repeat;
+    
+    /* กำหนดค่า margin/padding ให้เป็น 0 เพื่อให้เต็มจอ */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url('images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+body {
+    /* สังเกตตรงนี้: เราเริ่มจาก images/ ตามด้วยชื่อไฟล์ 
+       เพราะเราสร้างโฟลเดอร์ images ไว้ข้างใน Frontend แล้ว
+    */
+    background-image: url('images/meetingroom1.jpg'); 
+    
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+}
+
+/* โทนสี Hommie: ครีม (#F9F6F0), น้ำตาลอ่อน (#C4A484), น้ำตาลเข้ม (#5C4033) */
+:root {
+    --bg-color: #F9F6F0;
+    --primary-color: #8C6B52;
+    --primary-hover: #70533e;
+    --text-dark: #4A3C31;
+    --text-light: #8A7B6E;
+    --white: #FFFFFF;
+    --border-radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Prompt', sans-serif;
+}
+
+.login-body {
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: var(--text-dark);
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.login-box {
+    background-color: var(--white);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px rgba(92, 64, 51, 0.08); /* เงาสีน้ำตาลอ่อนๆ */
+    text-align: center;
+}
+
+.login-box h1 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #E5DCCF;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #FAF8F5;
+    transition: all 0.3s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: var(--white);
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.error-msg {
+    color: #D9534F;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    min-height: 20px;
+}
+
+/* =========================================
+   สไตล์สำหรับหน้า Dashboard 
+   ========================================= */
+.dashboard-body {
+    background-color: var(--bg-color);
+    display: block; /* ยกเลิก flex จากหน้า login */
+    min-height: 100vh;
+}
+
+.navbar {
+    background-color: var(--white);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(92, 64, 51, 0.05);
+}
+
+.nav-brand {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.user-greeting {
+    color: var(--text-dark);
+    margin-right: 15px;
+}
+
+.btn-outline {
+    padding: 8px 16px;
+    border: 1px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-outline:hover {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    margin-bottom: 25px;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.room-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(92, 64, 51, 0.04);
+    transition: transform 0.2s;
+}
+
+.room-card:hover {
+    transform: translateY(-5px);
+}
+
+.room-name {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.room-cap {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 15px;
+    display: inline-block;
+    background-color: #F0EBE1;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.room-desc {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+/* =========================================
+   สไตล์สำหรับหน้าต่างป๊อปอัพจองห้อง (Modal)
+   ========================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(74, 60, 49, 0.5); /* พื้นหลังสีน้ำตาลโปร่งแสง */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--white);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-content h3 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--bg-color);
+    padding-bottom: 10px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.modal-actions button {
+    flex: 1; /* ให้ปุ่มกว้างเท่าๆ กัน */
+    margin-top: 0;
+}
+
+/* =========================================
+   สไตล์สำหรับป๊อปอัพประวัติการจอง
+   ========================================= */
+.bookings-list {
+    max-height: 400px; /* จำกัดความสูง ถ้ายาวไปให้เลื่อนสกอร์บาร์ได้ */
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.booking-item {
+    background: #FAFAFA;
+    border: 1px solid #E5E0D8;
+    border-radius: var(--border-radius);
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.booking-info h4 {
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.booking-info p {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.status-confirmed { color: #2e7d32; font-weight: 600; }
+.status-cancelled { color: #d32f2f; font-weight: 600; }
+
+.btn-cancel {
+    background: #fff;
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #d32f2f;
+    color: #fff;
+}
+
+/* =========================================
+   ตกแต่ง Navbar แถบบน (Minimal Style)
+   ========================================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background-color: #ffffff;
+    border-bottom: 1px solid #F0EBE1;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-brand {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #8C7B65;
+}
+
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* ระยะห่างระหว่างปุ่ม */
+}
+
+.user-greeting {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.btn-history {
+    background-color: transparent;
+    color: #8C7B65;
+    border: 1px solid #8C7B65;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-family: 'Prompt', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-history:hover {
+    background-color: #8C7B65;
+    color: #ffffff;
+}
+
+.btn-logout-text {
+    background: none;
+    border: none;
+    color: #b3b3b3;
+    font-family: 'Prompt', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.btn-logout-text:hover {
+    color: #d9534f;
+}
+
+/* =========================================
+   จุดสีบอกสถานะห้องว่าง/ไม่ว่าง (Status Dot)
+   ========================================= */
+.room-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* กรณีห้องว่าง (สีเขียว) */
+.dot-available {
+    background-color: #4CAF50; 
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* กรณีมีคนจองแล้ว (สีแดง) */
+.dot-booked {
+    background-color: #F44336;
+    box-shadow: 0 0 5px rgba(244, 67, 54, 0.5);
+}
+
+/* เพิ่มพื้นหลังสีขาวโปร่งแสงให้ส่วนที่แสดงห้องประชุม */
+.room-container {
+    background-color: rgba(255, 255, 255, 0.85); /* สีขาว 85% ความทึบ */
+    padding: 20px;
+    border-radius: 15px; /* ทำมุมโค้งให้ดูนุ่มนวล */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* เพิ่มเงาให้ดูมีมิติเด้งขึ้นมาจากพื้นหลัง */
+    margin: 20px auto;
+    max-width: 1000px; /* ปรับความกว้างตามความเหมาะสม */
+}
+
+/* ปรับตำแหน่ง Grid ให้สวยงาม */
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+/* ปรับหัวข้อให้เด่นชัด */
+.section-title {
+    text-align: var(--text-light);
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* เพิ่มให้การ์ดแต่ละใบเด่นขึ้นด้วย */
+.room-card {
+    background-color: #ffffff; /* พื้นหลังการ์ดขาวสนิท */
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#errorMessage {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.error-msg {
+    color: #d9534f; /* สีแดงแบบ Professional */
+    font-size: 14px;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: 500;
+    min-height: 20px; /* จองพื้นที่ไว้ไม่ให้หน้าเว็บกระตุกตอนข้อความโผล่ */
+}
+
+@media (max-width: 768px) {
+    .room-grid {
+        grid-template-columns: 1fr; /* บนมือถือให้เรียง 1 คอลัมน์ */
+    }
+}
+
+/* Spinner สไตล์มินิมอล */
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid #ffffff; /* สีขาว */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
