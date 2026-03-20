@@ -1,4 +1,4 @@
-// --- ส่วนเดิมของคุณ: จัดการ Navbar และการล็อกอิน ---
+// หน้าล็อคอินกับข้างในการจองห้อง
 document.addEventListener('DOMContentLoaded', () => {
     const firstname = localStorage.getItem('firstname');
     const lastname = localStorage.getItem('lastname');
@@ -18,11 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const token = localStorage.getItem('token');
 if (!token) {
-    alert('กรุณาล็อกอินก่อนเข้าใช้งาน');
-    window.location.href = 'index.html';
+    Swal.fire({
+        icon: 'warning',
+        title: 'แจ้งเตือน',
+        text: 'กรุณาล็อกอินก่อนเข้าใช้งาน',
+        confirmButtonText: 'ตกลง'
+    }).then(() => {
+        window.location.href = 'index.html';
+    });
 }
 
-// --- ฟังก์ชันดึงข้อมูลห้องประชุม (แก้ไขให้โชว์รูปภาพ) ---
+//ฟังก์ชันดึงข้อมูลห้องประชุม 
 async function fetchRooms() {
     try {
         const response = await fetch('http://localhost:8000/api/rooms');
@@ -52,14 +58,12 @@ async function fetchRooms() {
                 buttonStyle = 'margin-top: 15px; background-color: #ccc; cursor: not-allowed; border-color: #ccc;';
             }
 
-            // ✨ จุดที่แก้ไข: จัดการ URL รูปภาพ
             const imageUrl = room.image_url 
                 ? `http://localhost:8000${room.image_url}` 
                 : 'https://via.placeholder.com/300x180?text=No+Image';
 
             const card = document.createElement('div');
             card.className = 'room-card';
-            // ✨ จุดที่แก้ไข: เพิ่มแท็ก <img> เข้าไปในการ์ด
             card.innerHTML = `
                 <img src="${imageUrl}" class="room-card-img" alt="${room.name}">
                 <div style="padding: 15px;">
@@ -88,12 +92,11 @@ async function fetchRooms() {
     }
 }
 
-// --- ฟังก์ชันเปิด Modal จองห้อง (แก้ไขให้โชว์รูปภาพใน Modal) ---
+// จองห้อง 
 function openBookingModal(room) {
     document.getElementById('modalRoomId').value = room.id;
     document.getElementById('modalRoomName').textContent = `จองห้อง: ${room.name}`;
     
-    // ✨ จุดที่แก้ไข: แสดงรูปภาพใน Modal
     const modalImg = document.getElementById('modalRoomImage');
     if (room.image_url) {
         modalImg.src = `http://localhost:8000${room.image_url}`;
@@ -105,35 +108,41 @@ function openBookingModal(room) {
     document.getElementById('bookingModal').style.display = 'flex';
 }
 
-// ฟังก์ชันปิด Modal
 function closeModal() {
     document.getElementById('bookingModal').style.display = 'none';
     const form = document.getElementById('bookingForm');
     if (form) form.reset(); 
 }
 
-// --- ส่วนจัดการ Submit Form จองห้อง (ที่แก้ไขให้มี Loading State) ---
+//ส่วนจัดการ Submit Form จองห้อง 
 const bookingForm = document.getElementById('bookingForm');
 if (bookingForm) {
     bookingForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // 1. ดึงปุ่มและเก็บสถานะเดิม
         const btn = bookingForm.querySelector('button[type="submit"]');
         const originalText = btn.textContent;
         
-        // 2. เริ่มต้นสถานะ Loading
         btn.disabled = true;
         btn.innerHTML = '<span class="spinner"></span> กำลังบันทึกข้อมูล...';
+
+       
+        const rawStartTime = document.getElementById('startTime').value;
+        const rawEndTime = document.getElementById('endTime').value;
+        
+        const formattedStartTime = rawStartTime.replace('T', ' ') + ':00';
+        const formattedEndTime = rawEndTime.replace('T', ' ') + ':00';
 
         const bookingData = {
             room_id: document.getElementById('modalRoomId').value,
             title: document.getElementById('bookingTitle').value,
-            start_time: document.getElementById('startTime').value,
-            end_time: document.getElementById('endTime').value
+            start_time: formattedStartTime, 
+            end_time: formattedEndTime      
         };
+        
 
         try {
+           
             const response = await fetch('http://localhost:8000/api/bookings', {
                 method: 'POST',
                 headers: {
@@ -145,23 +154,42 @@ if (bookingForm) {
             const data = await response.json();
             
             if (response.ok) {
-                alert('🎉 ' + data.message); 
-                closeModal();
-                fetchRooms(); 
+                
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "จองห้องประชุมสำเร็จ!",
+                    text: data.message,
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(() => {
+                    closeModal();
+                    fetchRooms(); // ดึงข้อมูลห้องใหม่
+                });
             } else {
-                alert('จองไม่สำเร็จ: ' + data.message); 
+                // แจ้งเตือนกรณีจองไม่ผ่าน
+                Swal.fire({
+                    icon: "error",
+                    title: "จองไม่สำเร็จ",
+                    text: data.message,
+                    confirmButtonText: 'ตกลง'
+                });
             }
         } catch (error) {
-            alert('เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์');
+            Swal.fire({
+                icon: "error",
+                title: "ข้อผิดพลาด",
+                text: "เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์",
+                confirmButtonText: 'ตกลง'
+            });
         } finally {
-            // 3. จบการทำงาน (คืนค่าปุ่มไม่ว่าจะสำเร็จหรือล้มเหลว)
             btn.disabled = false;
             btn.textContent = originalText;
         }
     });
 }
 
-// --- ระบบประวัติการจอง (My Bookings) ---
+// ระบบประวัติการจอง 
 const myBookingsBtn = document.getElementById('myBookingsBtn');
 if (myBookingsBtn) {
     myBookingsBtn.addEventListener('click', () => {
@@ -214,27 +242,43 @@ async function fetchMyBookings() {
 }
 
 async function cancelBooking(bookingId) {
-    if (!confirm('ยืนยันการยกเลิก?')) return;
-    
-    // หากต้องการให้ปุ่มยกเลิกเปลี่ยนเป็นสถานะโหลดด้วย 
-    // คุณอาจจะต้องส่ง element ของปุ่มเข้ามาในฟังก์ชันนี้ด้วย
-    
-    try {
-        const response = await fetch(`http://localhost:8000/api/bookings/${bookingId}/cancel`, {
-            method: 'PUT',
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        });
-        
-        if (response.ok) {
-            alert('ยกเลิกสำเร็จ');
-            fetchMyBookings();
-            fetchRooms(); 
-        } else {
-            alert('ไม่สามารถยกเลิกได้');
+   
+    Swal.fire({
+        title: 'ยืนยันการยกเลิก?',
+        text: "คุณต้องการยกเลิกการจองนี้ใช่หรือไม่?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e74c3c',
+        cancelButtonColor: '#95a5a6',
+        confirmButtonText: 'ใช่, ยกเลิกเลย!',
+        cancelButtonText: 'ย้อนกลับ'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const response = await fetch(`http://localhost:8000/api/bookings/${bookingId}/cancel`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                });
+                
+                if (response.ok) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "ยกเลิกสำเร็จ",
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        fetchMyBookings();
+                        fetchRooms(); 
+                    });
+                } else {
+                    Swal.fire('ข้อผิดพลาด', 'ไม่สามารถยกเลิกได้', 'error');
+                }
+            } catch (error) {
+                Swal.fire('ข้อผิดพลาด', 'เกิดข้อผิดพลาดในการเชื่อมต่อ', 'error');
+            }
         }
-    } catch (error) {
-        alert('เกิดข้อผิดพลาดในการเชื่อมต่อ');
-    }
+    });
 }
 
 // เริ่มต้นดึงข้อมูลห้อง

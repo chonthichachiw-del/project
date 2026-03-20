@@ -8,19 +8,33 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     const password = document.getElementById('password').value.trim();
     const errorMessage = document.getElementById('errorMessage');
 
-    errorMessage.style.color = 'red';
-    errorMessage.textContent = ''; // ล้างข้อความ Error เก่าออกก่อน
-
-    // --- ส่วนที่ 1: ตรวจสอบว่ากรอกข้อมูลครบหรือไม่ ---
-    if (!firstname || !lastname || !email || !password) {
-        errorMessage.textContent = 'กรุณากรอกข้อมูลให้ครบทุกช่อง';
-        return; // หยุดการทำงาน
+    // ล้างข้อความ Error สีแดงใต้ฟอร์มออก (เราจะเปลี่ยนไปใช้ ป็อปอัป แทน)
+    errorMessage.textContent = ''; 
+    if (!firstname) {
+        Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบ', text: 'กรุณากรอกชื่อของคุณ' });
+        return;
+    }
+    if (!lastname) {
+        Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบ', text: 'กรุณากรอกนามสกุล' });
+        return;
+    }
+    if (!email) {
+        Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบ', text: 'กรุณากรอกอีเมล' });
+        return;
+    }
+    if (!password) {
+        Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบ', text: 'กรุณากรอกรหัสผ่าน' });
+        return;
     }
 
-    // --- ส่วนที่ 2: ตรวจสอบเงื่อนไขรหัสผ่าน (8 ตัวขึ้นไป + ห้ามอักขระพิเศษ) ---
+    // ตรวจสอบเงื่อนไขรหัสผ่าน (8 ตัวขึ้นไป + ห้ามอักขระพิเศษ)
     const passwordRegex = /^[a-zA-Z0-9]{8,}$/;
     if (!passwordRegex.test(password)) {
-        errorMessage.textContent = 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร และใช้ได้เฉพาะภาษาอังกฤษและตัวเลขเท่านั้น';
+        Swal.fire({ 
+            icon: 'warning', 
+            title: 'รูปแบบรหัสผ่านไม่ถูกต้อง', 
+            text: 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร และใช้ได้เฉพาะภาษาอังกฤษและตัวเลขเท่านั้น' 
+        });
         return; // หยุดการทำงาน
     }
 
@@ -43,15 +57,33 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
 
         // 3. เช็คผลลัพธ์
         if (response.ok) {
-            alert('สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ');
-            window.location.href = 'index.html';
+            Swal.fire({
+                icon: "success",
+                title: "สมัครสมาชิกสำเร็จ!",
+                text: "กำลังพาท่านไปหน้าเข้าสู่ระบบ...",
+                showConfirmButton: false,
+                timer: 1500 // แสดงป็อปอัปค้างไว้ 1.5 วินาที
+            }).then(() => {
+               
+                window.location.href = 'index.html';
+            });
+            
         } else {
-            // กรณี Backend ส่ง Error กลับมา (เช่น อีเมลซ้ำ)
-            errorMessage.textContent = data.message || 'เกิดข้อผิดพลาดในการสมัครสมาชิก';
+            // กรณี Backend ส่ง Error กลับมา (เช่น อีเมลซ้ำ) แจ้งเตือนด้วย SweetAlert2
+            Swal.fire({
+                icon: "error",
+                title: "สมัครไม่สำเร็จ",
+                text: data.message || 'เกิดข้อผิดพลาดในการสมัครสมาชิก'
+            });
         }
 
     } catch (error) {
         console.error('Error:', error);
-        errorMessage.textContent = 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้';
+        // กรณีต่อ Backend ไม่ติด แจ้งเตือนด้วย SweetAlert2
+        Swal.fire({
+            icon: "error",
+            title: "ระบบขัดข้อง",
+            text: "ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ในขณะนี้"
+        });
     }
 });
