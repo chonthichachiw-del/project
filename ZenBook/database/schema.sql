@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS `bookings` (
 
 -- ข้อมูลตัวอย่างสำหรับ Demo
 INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`, `role`) VALUES
-('Somchai', 'Jaidee', 'admin@meetspace.com', '123456', 'admin'),
-('Somying', 'Rakrian', 'user@meetspace.com', '123456', 'user');
+('Somchai', 'Jaidee', 'admin@zenbook.com', '123456', 'admin'),
+('Somying', 'Rakrian', 'user@zenbook.com', '123456', 'user');
 
 INSERT INTO `rooms` (`name`, `capacity`, `description`) VALUES
 ('Sakura Room', 5, 'ห้องประชุมมินิมอลขนาดเล็ก สำหรับคุยงาน 2-5 คน'),
